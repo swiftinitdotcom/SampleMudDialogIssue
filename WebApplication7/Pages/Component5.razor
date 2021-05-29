@@ -1,0 +1,62 @@
+﻿@page "/cpp"
+@using MudBlazor
+
+@inject ISnackbar Snackbar
+
+<MudDialog>
+    <TitleContent>
+        <MudText Typo="Typo.h6">
+            <MudIcon Icon="@Icons.Material.Filled.DeleteForever" Class="mr-3 mb-n1" />
+            Delete server?
+        </MudText>
+    </TitleContent>
+    <DialogContent>
+        <input id="searchTextField" placeholder="Enter your address" type="text">
+
+        @*<MudTextField Value="@server.Id.ToString()" Label="Server ID" ReadOnly="true" />
+        <MudTextField Value="@server.Name" Label="Server Name" ReadOnly="true" />
+        <MudTextField Value="@server.Location" Label="Location" ReadOnly="true" />
+        <MudTextField Value="@server.IpAddress" Label="IP Address" ReadOnly="true" />*@
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="Cancel">Cancel</MudButton>
+        <MudButton Color="Color.Error" OnClick="DeleteServer">Delete Server</MudButton>
+    </DialogActions>
+</MudDialog>
+
+
+@code {
+    [Inject]
+    protected IJSRuntime JSRuntime { get; set; }
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+
+    //  [Parameter] public Server server { get; set; } = new Server();
+
+    private void Cancel()
+    {
+        MudDialog.Cancel();
+    }
+
+    private void DeleteServer()
+    {
+        //In a real world scenario this bool would probably be a service to delete the item from api/database
+        Snackbar.Add("Server Deleted", Severity.Success);
+        MudDialog.Close(DialogResult.Ok(23));
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        string  googleaddres = await JSRuntime.InvokeAsync<string>("Googlemapdata.Googlemapdata", "Tokyo");
+        if (firstRender)
+        {
+
+        }
+    }
+    public class Server
+    {
+        public Guid Id { get; set; }
+        public string Name { get; set; }
+        public string Location { get; set; }
+        public string IpAddress { get; set; }
+    }
+}
