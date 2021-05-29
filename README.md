@@ -1,6 +1,6 @@
 # SampleMudDialogIssue
 
-Change googlempa key to your key-
+Change google map key to your key-
 
  <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=putyourkey&libraries=places"></script>
   
